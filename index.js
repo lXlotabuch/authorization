@@ -1,10 +1,11 @@
-const data = require('./data/data.json');
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { registration } = require('./controllers/registration');
 const { login } = require('./controllers/login.js');
 const { logOut } = require('./controllers/logout.js');
+const { static } = require('express');
 
 const app = express();
 const port = 3000;
@@ -16,9 +17,10 @@ app.post('/registration', registration);
 app.post('/login', login);
 app.post('/logout', logOut);
 
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+
 app.get('*', (req, res) => {
-  console.log(data);
-  res.send('Hello World!');
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
 
 app.listen(port, () => {

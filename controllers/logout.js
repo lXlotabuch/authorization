@@ -1,4 +1,4 @@
 exports.logOut = (req, res) => {
   res.clearCookie('token');
-  res.status(200).json({ sucess: true });
+  res.status(200).json({ success: true });
 };

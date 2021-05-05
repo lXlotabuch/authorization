@@ -4,14 +4,21 @@ const validCredential = require('../utils/validCredential.js');
 
 exports.registration = (req, res) => {
   const initialValue = req.body;
+  initialValue.id = Date.now();
 
-  validCredential(initialValue);
+  const { isValid, error } = validCredential(initialValue);
+
+  if (!isValid) {
+    return res.status(200).json(error);
+  }
 
   let userFound = false;
 
   fs.readFile('./data/data.json', 'utf-8', (err, dataString) => {
     if (err) {
-      res.status(400).json({ message: `Error happened on server: ${err}` });
+      return res
+        .status(400)
+        .json({ message: `Error happened on server: ${err}` });
     }
 
     const data = JSON.parse(dataString);

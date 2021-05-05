@@ -33,7 +33,7 @@ exports.login = (req, res) => {
           login: userCredential.login,
         };
 
-        const token = jwt.sign(payload, secretKey);
+        const token = jwt.sign(payload, secretKey, { expiresIn: 3600 * 48 });
 
         return res
           .status(200)
